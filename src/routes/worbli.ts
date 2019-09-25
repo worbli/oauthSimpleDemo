@@ -11,7 +11,7 @@ router.get("/login", (req, res) => {
   req.session.worbli_secret = tokens.secretSync();
 
   const url = new URL("http://localhost:5000/oauth");
-  url.searchParams.append("client_id", "");
+  url.searchParams.append("client_id", "5d8a1d2fc8f5b97fd8d9ad5f");
   url.searchParams.append("redirect_uri", "http://127.0.0.1:3030/worbli/callback");
   url.searchParams.append("scope", "email profile address phone");
   url.searchParams.append("state", tokens.create(req.session.worbli_secret));
