@@ -8,6 +8,7 @@ import session from "express-session";
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import worbliRouter from './routes/worbli';
+import passport from "./passport";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
