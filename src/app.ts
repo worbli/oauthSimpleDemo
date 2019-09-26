@@ -6,7 +6,6 @@ import path from 'path';
 import session from "express-session";
 
 import indexRouter from './routes/index';
-import usersRouter from './routes/users';
 import worbliRouter from './routes/worbli';
 import passport from "./passport";
 
@@ -29,9 +28,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/worbli', worbliRouter);
 
 // catch 404 and forward to error handler

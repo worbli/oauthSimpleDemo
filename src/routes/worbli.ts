@@ -43,11 +43,21 @@ const router = Router();
 //   });
 // });
 
-router.get("/login-oauth2", passport.authenticate("oauth2", { session: false }));
+router.get("/login-oauth2", passport.authenticate("oauth2"));
 
-router.get("/callback-oauth2", passport.authenticate("oauth2", { session: false }),
-  (req, res, next) => {
-    console.log("callback-oauth2");
-    res.send("Success");
+router.get("/callback-oauth2", passport.authenticate("oauth2"),
+  (req, res) => {
+    // Successful authentication, redirect user page.
+    res.redirect("/worbli/user");
   });
+
+router.get("/user",
+  (req, res) => {
+    if (!req.user) {
+      return res.redirect("/worbli/login-oauth2");
+    }
+
+    res.render('user', req.user);
+  });
+
 export default router;
