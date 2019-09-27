@@ -45,10 +45,14 @@ const router = Router();
 
 router.get("/login-oauth2", passport.authenticate("oauth2"));
 
-router.get("/callback-oauth2", passport.authenticate("oauth2"),
+router.get("/callback-oauth2", passport.authenticate("oauth2", {
+  failureRedirect: "/worbli/unauthorized",
+  successRedirect: "/worbli/user",
+}));
+
+router.get("/unauthorized",
   (req, res) => {
-    // Successful authentication, redirect user page.
-    res.redirect("/worbli/user");
+    res.render('unauthorized');
   });
 
 router.get("/user",
