@@ -1,9 +1,12 @@
 import passport from "passport";
 import { Strategy as OAuth2Strategy, VerifyFunction, VerifyCallback } from "passport-oauth2";
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const verifyFunction: VerifyFunction = (accessToken: string, refreshToken: string, profile: any, cb: VerifyCallback) => {
-  axios.get("http://localhost:5000/api/oauth/me", {
+  axios.get(process.env.WORBLI_OAUTH2_ME, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     }
@@ -20,12 +23,12 @@ const verifyFunction: VerifyFunction = (accessToken: string, refreshToken: strin
 }
 
 passport.use(new OAuth2Strategy({
-  authorizationURL: "http://localhost:5000/oauth",
-  tokenURL: "http://localhost:5000/api/oauth/access_token",
-  clientID: "5d8a1d2fc8f5b97fd8d9ad5f",
-  clientSecret: "application-secret",
-  callbackURL: "http://127.0.0.1:3030/worbli/callback-oauth2",
-  scope: "email profile address phone",
+  authorizationURL: process.env.WORBLI_OAUTH2_AUTHORIZATION_URL,
+  tokenURL: process.env.WORBLI_OAUTH2_TOKEN_URL,
+  clientID: process.env.WORBLI_OAUTH2_CLIENT_ID,
+  clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
+  callbackURL: process.env.WORBLI_OAUTH2_CALLBACK_URL,
+  scope: process.env.WORBLI_OAUTH2_SCOPE,
 }, verifyFunction));
 
 passport.serializeUser((user: any, done) => {

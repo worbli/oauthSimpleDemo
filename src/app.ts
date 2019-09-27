@@ -4,10 +4,14 @@ import createError from 'http-errors';
 import logger from 'morgan';
 import path from 'path';
 import session from "express-session";
+import dotenv from "dotenv";
 
 import indexRouter from './routes/index';
 import worbliRouter from './routes/worbli';
 import passport from "./passport";
+
+// Set env values
+dotenv.config();
 
 const app = express();
 

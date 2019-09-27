@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+
+  server:
+    image: node:10
+    container_name: oauth-simple-demo
+    volumes:
+      - .:/opt/worbli/oauth/simple-demo
+    ports:
+      - '3030:3030'
+    environment:
+      PORT: 3030
+      version: "3"
+      NODE_ENV: development
+    command:
+    working_dir: /opt/worbli/oauth/simple-demo
+    command: npm start
