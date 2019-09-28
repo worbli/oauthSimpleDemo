@@ -15,7 +15,7 @@ services:
       NODE_ENV: development
     command:
     working_dir: /opt/worbli/oauth/simple-demo
-    command: npm start
+    command: bash -c "npm i && npm start"
 
   oauth-server:
     image: node:10
