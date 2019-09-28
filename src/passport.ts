@@ -9,6 +9,7 @@ const verifyFunction: VerifyFunction = (accessToken: string, refreshToken: strin
   axios.get(process.env.WORBLI_OAUTH2_ME, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      Origin: 'http://localhost:3000/'
     }
   })
   .then((response) => {

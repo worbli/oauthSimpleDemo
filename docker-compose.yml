@@ -2,7 +2,7 @@ version: "3"
 
 services:
 
-  server:
+  oauth-simple-demo:
     image: node:10
     container_name: oauth-simple-demo
     volumes:
@@ -17,19 +17,19 @@ services:
     working_dir: /opt/worbli/oauth/simple-demo
     command: npm start
 
-  # oauth-server:
-  #   image: node:10
-  #   container_name: oauth-server
-  #   volumes:
-  #     - ../oauthFrontEnd/:/opt/worbli/oauth/frontend
-  #     - ../oauthBackEnd:/opt/worbli/oauth/backend
-  #   links:
-  #     - oauth-simple-demo
-  #   ports:
-  #     - '3000:3000'
-  #   environment:
-  #     PORT: 3000
-  #     NODE_ENV: production
-  #   working_dir: /opt/worbli/oauth/backend
-  #   command:
-  #     bash -c "npm i && npm i --prefix \"../frontend\" && npm run build --prefix \"../frontend\" && npm start"
+  oauth-server:
+    image: node:10
+    container_name: oauth-server
+    volumes:
+      - ../oauthFrontEnd/:/opt/worbli/oauth/frontend
+      - ../oauthBackEnd:/opt/worbli/oauth/backend
+    links:
+      - oauth-simple-demo
+    ports:
+      - '3000:3000'
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+    working_dir: /opt/worbli/oauth/backend
+    command:
+      bash -c "npm i && npm i --prefix \"../frontend\" && npm run build --prefix \"../frontend\" && npm start"
