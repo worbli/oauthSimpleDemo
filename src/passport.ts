@@ -12,7 +12,7 @@ passport.use(new OAuth2Strategy({
   tokenURL: process.env.WORBLI_OAUTH2_TOKEN_URL,
   clientID: process.env.WORBLI_OAUTH2_CLIENT_ID,
   clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
-  callbackURL: process.env.WORBLI_OAUTH2_CALLBACK_URL,
+  callbackURL: "http://127.0.0.1:3030/worbli/callback-oauth2",
   scope: process.env.WORBLI_OAUTH2_SCOPE,
 }, (accessToken: string, refreshToken: string, profile: any, cb: OAuth2VerifyCallback) => {
   // get worbli user info
@@ -22,10 +22,27 @@ passport.use(new OAuth2Strategy({
     }
   })
   .then((response) => {
-    cb(null, {
-      ...response.data,
-      accessToken
-    });
+    // normalize user info to passport profile
+    var profile = {
+      // id: String(response.data.id);
+      displayName: [response.data.fname, response.data.mname, response.data.lname].join(" "),
+      name: {
+        givenName: response.data.fname,
+        middleName: response.data.mname,
+        familyName: response.data.lname
+      },
+      gender: response.data.gender,
+      emails: [
+        {
+          value: response.data.email,
+          // type:
+        }
+      ],
+    };
+
+  // TODO: Save accessToken for future use
+  // TODO: Find or create local user
+  cb(null, profile);
   })
   .catch((error) => {
     cb(error);
@@ -36,7 +53,7 @@ passport.use(new OAuth2Strategy({
 passport.use(new WorbliStrategy({
   clientID: process.env.WORBLI_OAUTH2_CLIENT_ID,
   clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
-  callbackURL: process.env.WORBLI_OAUTH2_CALLBACK_URL,
+  callbackURL: "http://127.0.0.1:3030/worbli/callback-worbli",
   scope: process.env.WORBLI_OAUTH2_SCOPE,
   state: true,
 }, (accessToken: string, refreshToken: string, profile: any, cb: WorbliVerifyCallback) => {
