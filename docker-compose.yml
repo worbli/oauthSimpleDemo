@@ -23,6 +23,7 @@ services:
     volumes:
       - ../oauthFrontEndDesign:/opt/worbli/oauth/frontend
       - ../oauthBackEnd:/opt/worbli/oauth/backend
+      - ../passport-worbli:/opt/worbli/oauth/passport-worbli
     links:
       - oauth-simple-demo
     ports:
