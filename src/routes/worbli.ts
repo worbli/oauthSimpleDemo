@@ -3,9 +3,16 @@ import passport from "passport";
 
 const router = Router();
 
-router.get("/login-oauth2", passport.authenticate("worbli"));
+// passport-oauth2
+router.get("/login-oauth2", passport.authenticate("oauth2"));
+router.get("/callback-oauth2", passport.authenticate("oauth2", {
+  failureRedirect: "/unauthorized",
+  successRedirect: "/user",
+}));
 
-router.get("/callback-oauth2", passport.authenticate("worbli", {
+// passport-worbli
+router.get("/login-worbli", passport.authenticate("worbli"));
+router.get("/callback-worbli", passport.authenticate("worbli", {
   failureRedirect: "/unauthorized",
   successRedirect: "/user",
 }));
