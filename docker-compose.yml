@@ -7,6 +7,7 @@ services:
     container_name: oauth-simple-demo
     volumes:
       - .:/opt/worbli/oauth/simple-demo
+      - ../passport-worbli:/opt/worbli/oauth/passport-worbli
     ports:
       - '3030:3030'
     environment:
@@ -23,7 +24,6 @@ services:
     volumes:
       - ../oauthFrontEndDesign:/opt/worbli/oauth/frontend
       - ../oauthBackEnd:/opt/worbli/oauth/backend
-      - ../passport-worbli:/opt/worbli/oauth/passport-worbli
     links:
       - oauth-simple-demo
     ports:
