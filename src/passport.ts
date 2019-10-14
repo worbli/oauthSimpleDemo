@@ -14,6 +14,7 @@ passport.use(new OAuth2Strategy({
   clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
   callbackURL: `${process.env.WORBLI_OAUTH2_CALLBACK_URL}/callback-oauth2`,
   scope: process.env.WORBLI_OAUTH2_SCOPE,
+  state: true,
 }, (accessToken: string, refreshToken: string, profile: any, cb: OAuth2VerifyCallback) => {
   // get worbli user info
   axios.get(process.env.WORBLI_OAUTH2_ME, {
@@ -56,8 +57,7 @@ passport.use(new WorbliStrategy({
   clientID: process.env.WORBLI_OAUTH2_CLIENT_ID,
   clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
   callbackURL: `${process.env.WORBLI_OAUTH2_CALLBACK_URL}/callback-worbli`,
-  scope: process.env.WORBLI_OAUTH2_SCOPE,
-  state: true
+  scope: process.env.WORBLI_OAUTH2_SCOPE
 }, (accessToken: string, refreshToken: string, profile: any, cb: WorbliVerifyCallback) => {
   // TODO: Save accessToken for future use
   // TODO: Find or create local user
