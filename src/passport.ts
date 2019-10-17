@@ -22,34 +22,34 @@ passport.use(new OAuth2Strategy({
       Authorization: `Bearer ${accessToken}`
     }
   })
-  .then((response) => {
-    // normalize user info to passport profile
-    // http://www.passportjs.org/docs/profile/
-    // https://tools.ietf.org/html/draft-smarr-vcarddav-portable-contacts-00
-    var profile = {
-      // id: String(response.data.id);
-      displayName: [response.data.fname, response.data.mname, response.data.lname].join(" "),
-      name: {
-        givenName: response.data.fname,
-        middleName: response.data.mname,
-        familyName: response.data.lname
-      },
-      gender: response.data.gender,
-      emails: [
-        {
-          value: response.data.email,
-          // type:
-        }
-      ],
-    };
+    .then((response) => {
+      // normalize user info to passport profile
+      // http://www.passportjs.org/docs/profile/
+      // https://tools.ietf.org/html/draft-smarr-vcarddav-portable-contacts-00
+      var profile = {
+        // id: String(response.data.id);
+        displayName: [response.data.fname, response.data.mname, response.data.lname].join(" "),
+        name: {
+          givenName: response.data.fname,
+          middleName: response.data.mname,
+          familyName: response.data.lname
+        },
+        gender: response.data.gender,
+        emails: [
+          {
+            value: response.data.email,
+            // type:
+          }
+        ],
+      };
 
-  // TODO: Save accessToken for future use
-  // TODO: Find or create local user
-  cb(null, profile);
-  })
-  .catch((error) => {
-    cb(error);
-  });
+      // TODO: Save accessToken for future use
+      // TODO: Find or create local user
+      cb(null, profile);
+    })
+    .catch((error) => {
+      cb(error);
+    });
 }));
 
 // passport-worbli
