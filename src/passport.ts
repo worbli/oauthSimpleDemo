@@ -10,7 +10,7 @@ dotenv.config();
 passport.use(new OAuth2Strategy({
   clientID: process.env.WORBLI_OAUTH2_CLIENT_ID,
   clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
-  callbackURL: `${process.env.WORBLI_OAUTH2_CALLBACK_URL}/callback-oauth2`,
+  callbackURL: "/worbli/callback-oauth2",
   scope: "user.email user.dob user.gender user.fname user.lname iddoc.number iddoc.type iddoc.state iddoc.date addressdoc.type addressdoc.country addressdoc.date addressdoc.line1 addressdoc.line2 addressdoc.town addressdoc.state addressdoc.zip",
   state: true,
 
@@ -57,7 +57,7 @@ passport.use(new OAuth2Strategy({
 passport.use(new WorbliStrategy({
   clientID: process.env.WORBLI_OAUTH2_CLIENT_ID,
   clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
-  callbackURL: `${process.env.WORBLI_OAUTH2_CALLBACK_URL}/callback-worbli`,
+  callbackURL: "/worbli/callback-worbli",
   scope: "user.email user.dob user.gender user.fname user.lname iddoc.number iddoc.type iddoc.state iddoc.date addressdoc.type addressdoc.country addressdoc.date addressdoc.line1 addressdoc.line2 addressdoc.town addressdoc.state addressdoc.zip",
 
   authorizationURL: process.env.WORBLI_OAUTH2_AUTHORIZATION_URL,
