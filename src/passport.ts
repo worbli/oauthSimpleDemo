@@ -8,13 +8,14 @@ dotenv.config();
 
 // passport-oauth2
 passport.use(new OAuth2Strategy({
-  authorizationURL: process.env.WORBLI_OAUTH2_AUTHORIZATION_URL,
-  tokenURL: process.env.WORBLI_OAUTH2_TOKEN_URL,
   clientID: process.env.WORBLI_OAUTH2_CLIENT_ID,
   clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
   callbackURL: `${process.env.WORBLI_OAUTH2_CALLBACK_URL}/callback-oauth2`,
-  scope: process.env.WORBLI_OAUTH2_SCOPE,
+  scope: "user.email user.dob user.gender user.fname user.lname iddoc.number iddoc.type iddoc.state iddoc.date addressdoc.type addressdoc.country addressdoc.date addressdoc.line1 addressdoc.line2 addressdoc.town addressdoc.state addressdoc.zip",
   state: true,
+
+  authorizationURL: process.env.WORBLI_OAUTH2_AUTHORIZATION_URL,
+  tokenURL: process.env.WORBLI_OAUTH2_TOKEN_URL,
 }, (accessToken: string, refreshToken: string, profile: any, cb: OAuth2VerifyCallback) => {
   // get worbli user info
   axios.get(process.env.WORBLI_OAUTH2_ME, {
@@ -28,16 +29,16 @@ passport.use(new OAuth2Strategy({
       // https://tools.ietf.org/html/draft-smarr-vcarddav-portable-contacts-00
       var profile = {
         // id: String(response.data.id);
-        displayName: [response.data.fname, response.data.mname, response.data.lname].join(" "),
+        displayName: [response.data.user.fname, response.data.user.mname, response.data.user.lname].join(" "),
         name: {
-          givenName: response.data.fname,
-          middleName: response.data.mname,
-          familyName: response.data.lname
+          givenName: response.data.user.fname,
+          middleName: response.data.user.mname,
+          familyName: response.data.user.lname
         },
-        gender: response.data.gender,
+        gender: response.data.user.gender,
         emails: [
           {
-            value: response.data.email,
+            value: response.data.user.email,
             // type:
           }
         ],
@@ -57,7 +58,11 @@ passport.use(new WorbliStrategy({
   clientID: process.env.WORBLI_OAUTH2_CLIENT_ID,
   clientSecret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
   callbackURL: `${process.env.WORBLI_OAUTH2_CALLBACK_URL}/callback-worbli`,
-  scope: process.env.WORBLI_OAUTH2_SCOPE
+  scope: "user.email user.dob user.gender user.fname user.lname iddoc.number iddoc.type iddoc.state iddoc.date addressdoc.type addressdoc.country addressdoc.date addressdoc.line1 addressdoc.line2 addressdoc.town addressdoc.state addressdoc.zip",
+
+  authorizationURL: process.env.WORBLI_OAUTH2_AUTHORIZATION_URL,
+  tokenURL: process.env.WORBLI_OAUTH2_TOKEN_URL,
+  userProfileURL: process.env.WORBLI_OAUTH2_ME,
 }, (accessToken: string, refreshToken: string, profile: any, cb: WorbliVerifyCallback) => {
   // TODO: Save accessToken for future use
   // TODO: Find or create local user
