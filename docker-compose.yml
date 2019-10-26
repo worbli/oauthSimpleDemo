@@ -22,7 +22,7 @@ services:
     image: node:10
     container_name: oauth-server
     volumes:
-      - ../oauthFrontEndDesign:/opt/worbli/oauth/frontend
+      - ../oauthFrontEnd:/opt/worbli/oauth/frontend
       - ../oauthBackEnd:/opt/worbli/oauth/backend
     links:
       - oauth-simple-demo
