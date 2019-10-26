@@ -33,5 +33,5 @@ services:
       NODE_ENV: production
     working_dir: /opt/worbli/oauth/backend
     command:
-      bash -c "npm i && npm i --prefix \"../frontend\" && npm run build --prefix \"../frontend\" && npm start"
+      bash -c "npm i && npm i --prefix \"../frontend\" && npm rebuild --prefix \"../frontend\" node-sass && npm run build --prefix \"../frontend\" && npm start"
       # bash -c "npm i && npm start"
