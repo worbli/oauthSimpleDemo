@@ -27,18 +27,25 @@ passport.use(new OAuth2Strategy({
       // normalize user info to passport profile
       // http://www.passportjs.org/docs/profile/
       // https://tools.ietf.org/html/draft-smarr-vcarddav-portable-contacts-00
+
+      const { id, user } = response.data;
+
       var profile = {
-        // id: String(response.data.id);
-        displayName: [response.data.user.fname, response.data.user.mname, response.data.user.lname].join(" "),
+        id: id,
+        displayName: [
+          (user && user.fname) || "",
+          (user && user.mname) || "",
+          (user && user.lname) || "",
+        ].join(" "),
         name: {
-          givenName: response.data.user.fname,
-          middleName: response.data.user.mname,
-          familyName: response.data.user.lname
+          givenName: (user && user.fname) || "",
+          middleName: (user && user.mname) || "",
+          familyName: (user && user.lname) || "",
         },
-        gender: response.data.user.gender,
+        gender: (user && user.gender) || "",
         emails: [
           {
-            value: response.data.user.email,
+            value: (user && user.email) || "",
             // type:
           }
         ],
