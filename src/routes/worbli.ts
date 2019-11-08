@@ -18,8 +18,8 @@ router.get("/callback-worbli", passport.authenticate("worbli", {
 }));
 
 // passport-openid
-router.get('/login-openid', passport.authenticate('authorize.worbli.io'));
-router.get('/callback-openid', passport.authenticate('authorize.worbli.io', {
+router.get('/login-openid', passport.authenticate('oauth.worbli.io'));
+router.get('/callback-openid', passport.authenticate('oauth.worbli.io', {
   failureRedirect: '/unauthorized' ,
   successRedirect: '/user',
 }));

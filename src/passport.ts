@@ -81,16 +81,16 @@ passport.use(new WorbliStrategy({
 
 // OpenID
 const issuer = new Issuer({
-  issuer: "https://authorize.worbli.io",
+  issuer: "https://oauth.worbli.io",
   authorization_endpoint: process.env.WORBLI_OAUTH2_OPENID_URL,
-  userinfo_endpoint: "http://localhost:3000/api/oauth/user-info",
-  jwks_uri: "http://localhost:3000/api/oauth/jwks",
+  userinfo_endpoint: process.env.WORBLI_OAUTH2_USER_INFO_URL,
+  jwks_uri: process.env.WORBLI_OAUTH2_JWKS_URL,
 });
 
 const client = new issuer.Client({
   client_id: process.env.WORBLI_OAUTH2_CLIENT_ID,
   client_secret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
-  redirect_uris: ["http://localhost:3030/worbli/callback-openid"],
+  redirect_uris: [process.env.WORBLI_OAUTH2_OPENID_REDIRECT_URL],
   response_types: ["id_token"],
 });
 
