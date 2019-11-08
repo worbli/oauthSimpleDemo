@@ -1,8 +1,11 @@
 import passport from "passport";
 import { Strategy as OAuth2Strategy, VerifyCallback as OAuth2VerifyCallback } from "passport-oauth2";
 import { Strategy as WorbliStrategy, VerifyCallback as WorbliVerifyCallback } from "passport-worbli";
+import { Issuer, Strategy as OpenIDStrategy, TokenSet, UserinfoResponse } from "openid-client";
 import dotenv from "dotenv";
 import axios from "axios";
+
+// const OpenIDStrategy = require("passport-openid").Strategy;
 
 dotenv.config();
 
@@ -75,6 +78,48 @@ passport.use(new WorbliStrategy({
   // TODO: Find or create local user
   cb(null, profile);
 }));
+
+// OpenID
+const issuer = new Issuer({
+  issuer: "https://authorize.worbli.io",
+  authorization_endpoint: process.env.WORBLI_OAUTH2_OPENID_URL,
+  userinfo_endpoint: "http://localhost:3000/api/oauth/user-info",
+  jwks_uri: "http://localhost:3000/api/oauth/jwks",
+});
+
+const client = new issuer.Client({
+  client_id: process.env.WORBLI_OAUTH2_CLIENT_ID,
+  client_secret: process.env.WORBLI_OAUTH2_CLIENT_SECRET,
+  redirect_uris: ["http://localhost:3030/worbli/callback-openid"],
+  response_types: ["id_token"],
+});
+
+passport.use(new OpenIDStrategy({
+  client: client,
+}, async (tokenset: TokenSet, userInfo: UserinfoResponse, done: any) => {
+  try {
+    done(null, {
+      id: userInfo.sub,
+      displayName: userInfo.name || "",
+      name: {
+        givenName: userInfo.given_name || "",
+        middleName: userInfo.middle_name || "",
+        familyName: userInfo.family_name || "",
+      },
+      gender: userInfo.gender || "",
+      emails: [
+        {
+          value: userInfo.email || ""
+          // type:
+        }
+      ],
+    });
+  } catch(error) {
+    console.error(error);
+    done(error);
+  }
+}));
+// end OpenID
 
 passport.serializeUser((user: any, done) => {
   done(null, JSON.stringify(user));

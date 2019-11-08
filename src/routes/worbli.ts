@@ -17,4 +17,11 @@ router.get("/callback-worbli", passport.authenticate("worbli", {
   successRedirect: "/user",
 }));
 
+// passport-openid
+router.get('/login-openid', passport.authenticate('authorize.worbli.io'));
+router.get('/callback-openid', passport.authenticate('authorize.worbli.io', {
+  failureRedirect: '/unauthorized' ,
+  successRedirect: '/user',
+}));
+
 export default router;
