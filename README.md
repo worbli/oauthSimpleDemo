@@ -1,0 +1,1 @@
+ssh ubuntu@ec2-3-88-7-3.compute-1.amazonaws.com
